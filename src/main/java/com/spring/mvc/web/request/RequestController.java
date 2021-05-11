@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
+import java.util.Map;
 
 //스프링 컨테이너에 해당 클래스의 객체가 빈(컨트롤러기능)으로 등록됨
 @Controller
