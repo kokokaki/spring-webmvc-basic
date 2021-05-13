@@ -30,6 +30,14 @@ dependencies {
 	//jsp 라이브러리 추가
 	implementation 'javax.servlet:jstl'
 	implementation 'org.apache.tomcat.embed:tomcat-embed-jasper'
+
+	//database 관련 라이브러리 추가
+	//spring jdbc 라이브러리
+	compile "org.springframework.boot:spring-boot-starter-jdbc"
+	//오라클 커넥트 라이브러리 (11g edition - gradle, maven 라이센스 문제 공식 지원 불가)
+	compile fileTree(dir: '/src/main/webapp/WEB-INF/lib', include: ['*.jar'])
+
+
 }
 
 test {
