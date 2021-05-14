@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+
+<!-- namespace에는 사용할 인터페이스의 풀 경로(패키지명 포함 인터페이스)를 적는다 -->
+<mapper namespace="com.spring.mvc.web.score.repository.ScoreMapper">
+
+    <!--  점수 저장 기능  -->
+    <!--  id속성에는 매퍼 인터페이스의 메서드명을 적음  -->
+    <insert id="save">
+        INSERT INTO score
+            (stu_num, stu_name, kor, eng, math, total, average)
+        VALUES
+            (seq_score.nextval, #{name}, #{kor}, #{eng}, #{math}, #{total}, #{average})
+    </insert>
+
+    <!-- 점수 삭제 기능  -->
+    <delete id="remove">
+        DELETE FROM score
+        WHERE stu_num = #{stuNum}
+    </delete>
+
+    <!--   SELECT문 처리를 위한 자바 필드와 테이블 컬럼명 매핑   -->
+    <!--   resultMap: 자바의 이름규칙과 SQL의 이름규칙이 다를 때 매핑 처리 -->
+    <!--   id속성에는 이 맵의 이름을 만들어주고 type속성에는 해당 클래스 전체경로 -->
+    <resultMap id="scoreMap" type="com.spring.mvc.web.score.domain.Score">
+        <!--  property속성에는 자바필드명, column은 테이블 컬럼명  -->
+        <result property="stuNum" column="stu_num" />
+        <result property="name" column="stu_name" />
+    </resultMap>
+
+    <!--  전체 정보 조회 기능  -->
+    <select id="findAll" resultMap="scoreMap">
+        SELECT * FROM score
+    </select>
+
+    <!--  개별 정보 조회 기능  -->
+    <select id="findOne" resultMap="scoreMap">
+        SELECT * FROM score
+        WHERE stu_num = #{stuNum}
+    </select>
+
+    <!--  총 정보 건수 조회  -->
+    <select id="getCount" resultType="int">
+        SELECT COUNT(*) FROM score
+    </select>
+
+</mapper>

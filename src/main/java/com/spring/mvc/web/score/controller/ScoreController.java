@@ -48,6 +48,7 @@ public class ScoreController {
         List<Score> scoreList = scoreService.getScoreList();
         log.info("/score/list GET 요청! - " + scoreList);
         model.addAttribute("scoreList", scoreList);
+        model.addAttribute("count", scoreService.getCount());
         return "score/write-form";
     }
 

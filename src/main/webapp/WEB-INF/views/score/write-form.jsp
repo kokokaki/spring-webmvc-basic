@@ -26,6 +26,14 @@
     li {
         margin-bottom: 10px;
     }
+
+    .score-list > li:first-child {
+        font-size: 1.2em;
+        color: blue;
+        font-weight: 700;
+        border-bottom: 1px solid skyblue;
+        margin-bottom: 10px;
+    }
 </style>
 </head>
 <body>
@@ -53,6 +61,8 @@
 
 
     <ul class="score-list">
+
+        <li>총 학생 수 : ${count}명</li>
 
         <c:forEach var="score" items="${scoreList}">
             <li># 학번: ${score.stuNum}, 이름: <a href="/score/detail?stuNum=${score.stuNum}">${score.name}</a>, 국어: ${score.kor}점, 영어: ${score.eng}점, 수학: ${score.math}점, 총점: ${score.total}점, 평균: ${score.average}점

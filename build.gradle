@@ -37,7 +37,8 @@ dependencies {
 	//오라클 커넥트 라이브러리 (11g edition - gradle, maven 라이센스 문제 공식 지원 불가)
 	compile fileTree(dir: '/src/main/webapp/WEB-INF/lib', include: ['*.jar'])
 
-
+	//마이바티스 라이브러리
+	compile "org.mybatis.spring.boot:mybatis-spring-boot-starter:2.1.0"
 }
 
 test {

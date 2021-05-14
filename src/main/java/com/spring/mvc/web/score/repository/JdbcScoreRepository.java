@@ -2,7 +2,6 @@ package com.spring.mvc.web.score.repository;
 
 import com.spring.mvc.web.score.domain.Score;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
