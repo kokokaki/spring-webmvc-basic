@@ -1,7 +1,9 @@
 package com.spring.mvc.web.board.service;
 
 import com.spring.mvc.web.board.domain.Board;
+import com.spring.mvc.web.board.repository.BoardMapper;
 import com.spring.mvc.web.board.repository.BoardRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -10,14 +12,16 @@ import java.util.Comparator;
 import java.util.List;
 
 @Service
+@RequiredArgsConstructor
 public class BoardService {
 
-    public final BoardRepository boardRepository;
+    //    public final BoardRepository boardRepository;
+    public final BoardMapper boardRepository;
 
-    @Autowired
-    public BoardService(BoardRepository boardRepository) {
-        this.boardRepository = boardRepository;
-    }
+//    @Autowired
+//    public BoardService(BoardRepository boardRepository) {
+//        this.boardRepository = boardRepository;
+//    }
 
     //게시글 목록 가져오기
     public List<Board> getArticles() {
@@ -44,7 +48,8 @@ public class BoardService {
     public Board getContent(int boardNo, boolean viewFlag) {
         Board content = boardRepository.getContent(boardNo);
         if (viewFlag) {
-            content.upViewCount(); //조회수상승
+            //content.upViewCount(); //조회수상승
+            boardRepository.upViewCount(boardNo);
         }
         return content;
     }
