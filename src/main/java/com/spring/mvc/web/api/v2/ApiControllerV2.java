@@ -2,15 +2,15 @@ package com.spring.mvc.web.api.v2;
 
 import com.spring.mvc.web.board.domain.Board;
 import com.spring.mvc.web.board.service.BoardService;
+import com.spring.mvc.web.common.paging.Criteria;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
@@ -19,6 +19,8 @@ import java.util.Map;
 //API를 만들 때 사용하는 컨트롤러 아노테이션
 @RestController
 @RequestMapping("/api/v2")
+@CrossOrigin // 다른 서버에서 요청이 올 때 CORS 정책을 해제함.
+@Log4j2
 public class ApiControllerV2 {
 
     /*
@@ -38,8 +40,9 @@ public class ApiControllerV2 {
     }
 
     @GetMapping("/hobby")
-    public String[] hobby() {
-        return new String[] {"음악감상", "축구", "꽃꽂이"};
+    public String[] hobby(HttpServletRequest request) {
+        log.info(request.getRemoteAddr());
+        return new String[] {"음악감상", "축구", "꽃꽂이", "요리"};
     }
 
     @GetMapping("/major")
@@ -67,7 +70,7 @@ public class ApiControllerV2 {
 
     @GetMapping("/board-list")
     public List<Board> list() {
-        return boardService.getArticles();
+        return boardService.getArticles(new Criteria());
     }
 
 }

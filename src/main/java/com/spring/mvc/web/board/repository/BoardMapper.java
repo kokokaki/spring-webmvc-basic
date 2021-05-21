@@ -1,6 +1,7 @@
 package com.spring.mvc.web.board.repository;
 
 import com.spring.mvc.web.board.domain.Board;
+import com.spring.mvc.web.common.paging.Criteria;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
@@ -9,7 +10,14 @@ import java.util.List;
 public interface BoardMapper {
 
     //게시글 목록 가져오기
+    //1. 페이징 없는 버전
     List<Board> getArticles();
+
+    //2. 페이징 쿼리 추가버전
+    List<Board> getArticles(Criteria criteria);
+
+    //총 게시물 수 조회
+    int getTotalCount();
 
     //게시글 등록
     void insertArticle(Board article);

@@ -6,6 +6,33 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+<style>
+	.pagination {
+		width: 60%;
+		margin-top: 10px;
+		list-style: none;
+		display: flex;
+	}
+	.pagination > li {
+		justify-content: flex-end;
+		margin-right: 5px;
+	}
+	.pagination > li > a {
+		text-decoration: none;
+		color: black;
+	}
+
+	.pagination > li > a:hover {
+		color: yellowgreen;
+	}
+
+	.pagination > li.active > a {
+		font-weight: bold;
+		color: orangered;
+		font-size: 1.1em;
+	}
+</style>
+<link rel="stylesheet" href="/css/main.css">
 </head>
 <body>
 
@@ -45,11 +72,51 @@
 	
 </table>
 
+<!-- 페이지 영역 -->
+<ul class="pagination">
+	
+	<c:if test="${pageMaker.prev}">
+		<li>
+			<a href="/board/list?page=${pageMaker.beginPage - 1}">[prev]</a>
+		</li>
+	</c:if>
+
+	<!-- li*5>a{[$]} -->
+	<c:forEach var="i" begin="${pageMaker.beginPage}" end="${pageMaker.endPage}" step="1">
+		<li data-page="${i}"><a href="/board/list?page=${i}">[${i}]</a></li>
+	</c:forEach>
+
+	<c:if test="${pageMaker.next}">
+		<li>
+			<a href="/board/list?page=${pageMaker.endPage + 1}">[next]</a>
+		</li>
+	</c:if>
+</ul>
+
 </c:if>
 
 <p>
 	<a href="/board/write">게시글 작성하기</a>
 </p>
+
+
+<script>
+
+	//현재 위치한 페이지넘버에 클래스 active를 부여하는 함수 정의
+	function appendPageActive(curPageNum) {
+		const $ul = document.querySelector('.pagination');
+		for (let $li of [...$ul.children]) {
+			if ($li.dataset.page === curPageNum) {
+				$li.classList.add('active');
+			}
+		}
+	}
+
+	(function() {
+		appendPageActive('${pageMaker.criteria.page}');
+	}());
+
+</script>
 
 </body>
 </html>

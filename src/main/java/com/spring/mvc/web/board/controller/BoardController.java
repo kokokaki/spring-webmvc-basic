@@ -4,6 +4,8 @@ import com.spring.mvc.web.board.domain.Board;
 import com.spring.mvc.web.board.domain.ModifyBoard;
 import com.spring.mvc.web.board.repository.BoardRepository;
 import com.spring.mvc.web.board.service.BoardService;
+import com.spring.mvc.web.common.paging.Criteria;
+import com.spring.mvc.web.common.paging.PageMaker;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -40,8 +42,10 @@ public class BoardController {
 
     //글 목록 요청
     @GetMapping("/board/list")
-    public String list(Model model) {
-        model.addAttribute("articles", boardService.getArticles());
+    public String list(Criteria criteria, Model model) {
+        model.addAttribute("articles", boardService.getArticles(criteria));
+        //페이지 정보 만들어서 jsp에게 보내기
+        model.addAttribute("pageMaker", new PageMaker(criteria, boardService.getTotal()));
         return "board/list";
     }
 

@@ -10,8 +10,29 @@
         <result property="viewCnt" column="view_cnt"/>
     </resultMap>
 
+    <!-- 1. 페이징 없는 버전   -->
+<!--    <select id="getArticles" resultMap="boardMap">-->
+<!--        SELECT * FROM board-->
+<!--    </select>-->
+
+    <!-- 2. 페이징 쿼리 적용   -->
     <select id="getArticles" resultMap="boardMap">
-        SELECT * FROM board
+        <![CDATA[
+            SELECT
+                board_no, writer, title, content, view_cnt
+            FROM
+                (SELECT /*+INDEX_DESC(board pk_board)*/
+                    rownum rn, board_no, writer, title, content, view_cnt
+                FROM board
+                WHERE rownum <= #{page} * #{amount})
+            WHERE rn > (#{page} - 1) * #{amount}
+        ]]>
+    </select>
+
+    <!--    총 게시물 수 조회-->
+    <select id="getTotalCount" resultType="int">
+        SELECT COUNT(*)
+        FROM board
     </select>
 
     <insert id="insertArticle">
