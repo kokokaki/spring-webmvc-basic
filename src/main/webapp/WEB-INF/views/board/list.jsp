@@ -31,6 +31,25 @@
 		color: orangered;
 		font-size: 1.1em;
 	}
+
+	.amount {
+		width: 30%;
+		display: flex;
+		justify-content: flex-end;
+		margin-bottom: 10px;
+	}
+	.amount a {
+		display: block;
+		color: #fff;
+		background: #f00;
+		width: 50px;
+		height: 20px;
+		border-radius: 5px;
+		margin-right: 5px;
+		text-align: center;
+		font-weight: 700;
+		text-decoration: none;
+	}
 </style>
 <link rel="stylesheet" href="/css/main.css">
 </head>
@@ -43,6 +62,12 @@
 <c:if test="${articles.size() > 0}">
 
 <h1>게시글 목록</h1>
+
+<div class="amount">
+	<a href="/board/list${pageMaker.makeParam(pageMaker.criteria.page, 10)}">10</a>
+	<a href="/board/list${pageMaker.makeParam(pageMaker.criteria.page, 20)}">20</a>
+	<a href="/board/list${pageMaker.makeParam(pageMaker.criteria.page, 30)}">30</a>
+</div>
 
 <table border="1">
 	<tr>
@@ -61,7 +86,7 @@
 			<td>${article.boardNo}</td>
 			<td>${article.writer}</td>
 			<td>		
-				<a href="/board/content?boardNo=${article.boardNo}&vf=true">${article.title}</a>
+				<a href="/board/content${pageMaker.makeParam(pageMaker.criteria.page)}&boardNo=${article.boardNo}&vf=true">${article.title}</a>
 			</td>
 			<td>${article.viewCnt}</td>
 			<td>
@@ -77,23 +102,43 @@
 	
 	<c:if test="${pageMaker.prev}">
 		<li>
-			<a href="/board/list?page=${pageMaker.beginPage - 1}">[prev]</a>
+			<a href="/board/list${pageMaker.makeParam(pageMaker.beginPage-1)}">[prev]</a>
 		</li>
 	</c:if>
 
 	<!-- li*5>a{[$]} -->
 	<c:forEach var="i" begin="${pageMaker.beginPage}" end="${pageMaker.endPage}" step="1">
-		<li data-page="${i}"><a href="/board/list?page=${i}">[${i}]</a></li>
+		<li data-page="${i}"><a href="/board/list${pageMaker.makeParam(i)}">[${i}]</a></li>
 	</c:forEach>
 
 	<c:if test="${pageMaker.next}">
 		<li>
-			<a href="/board/list?page=${pageMaker.endPage + 1}">[next]</a>
+			<a href="/board/list${pageMaker.makeParam(pageMaker.endPage+1)}">[next]</a>
 		</li>
 	</c:if>
 </ul>
 
 </c:if>
+
+<!-- 검색창 영역 -->
+<div class="search">
+	<form action="/board/list" id="search-form">
+
+		<input type="hidden" name="amount" value="${pageMaker.criteria.amount}">
+		
+		<select name="type">
+			<option value="title" ${pageMaker.criteria.type == 'title' ? 'selected' : ''}>제목</option>
+			<option value="content" ${pageMaker.criteria.type == 'content' ? 'selected' : ''}>내용</option>
+			<option value="writer" ${pageMaker.criteria.type == 'writer' ? 'selected' : ''}>작성자</option>
+			<option value="titleContent" ${pageMaker.criteria.type == 'titleContent' ? 'selected' : ''}>제목+내용</option>
+		</select>
+
+		<input type="text" name="keyword" placeholder="검색어를 입력!" value="${pageMaker.criteria.keyword}">
+
+		<button type="submit">검색</button>
+
+	</form>
+</div>
 
 <p>
 	<a href="/board/write">게시글 작성하기</a>

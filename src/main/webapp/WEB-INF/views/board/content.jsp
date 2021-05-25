@@ -19,7 +19,7 @@
 	<textarea rows="5" cols="30" disabled>${article.content}</textarea>
 </p>
 
-<a href="/board/list">글 목록보기</a>&nbsp;
+<a href="/board/list?page=${cri.page}&type=${cri.type}&keyword=${cri.keyword}&amount=${cri.amount}">글 목록보기</a>&nbsp;
 <a href="/board/modify?boardNo=${article.boardNo}&vf=false">글 수정하기</a>
 
 </body>

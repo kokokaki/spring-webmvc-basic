@@ -29,10 +29,56 @@
         ]]>
     </select>
 
+
+    <!-- 3. 검색 쿼리 + 페이징 쿼리 적용   -->
+    <select id="getSearchArticles" resultMap="boardMap">
+        <![CDATA[
+            SELECT
+                board_no, writer, title, content, view_cnt
+            FROM
+                (SELECT /*+INDEX_DESC(board pk_board)*/
+                    rownum rn, board_no, writer, title, content, view_cnt
+                FROM board
+                WHERE
+            ]]>
+                    <if test="type == 'title'">
+                        title LIKE '%' || #{keyword} || '%' AND
+                    </if>
+                    <if test="type == 'writer'">
+                        writer LIKE '%' || #{keyword} || '%' AND
+                    </if>
+                    <if test="type == 'content'">
+                        content LIKE '%' || #{keyword} || '%' AND
+                    </if>
+                    <if test="type == 'titleContent'">
+                        (title LIKE '%' || #{keyword} || '%'
+                        OR content LIKE '%' || #{keyword} || '%')
+                        AND
+                    </if>
+        <![CDATA[
+                    rownum <= #{page} * #{amount})
+            WHERE rn > (#{page} - 1) * #{amount}
+        ]]>
+    </select>
+
     <!--    총 게시물 수 조회-->
     <select id="getTotalCount" resultType="int">
         SELECT COUNT(*)
         FROM board
+        <if test="type == 'title'">
+           WHERE title LIKE '%' || #{keyword} || '%'
+        </if>
+        <if test="type == 'writer'">
+            WHERE  writer LIKE '%' || #{keyword} || '%'
+        </if>
+        <if test="type == 'content'">
+            WHERE  content LIKE '%' || #{keyword} || '%'
+        </if>
+        <if test="type == 'titleContent'">
+            WHERE  (title LIKE '%' || #{keyword} || '%'
+                OR content LIKE '%' || #{keyword} || '%')
+
+        </if>
     </select>
 
     <insert id="insertArticle">

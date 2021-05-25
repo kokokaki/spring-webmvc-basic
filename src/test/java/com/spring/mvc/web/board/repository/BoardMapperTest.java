@@ -7,6 +7,8 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import java.util.List;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
@@ -36,6 +38,21 @@ class BoardMapperTest {
             System.out.println(article);
         }
         System.out.println("=======================================================");
+    }
+
+    @Test
+    @DisplayName("제목으로 검색된 게시물 리스트를 반환해야 한다.")
+    void searchByTitleTest() {
+        Criteria criteria = new Criteria();
+        criteria.setKeyword("멍멍");
+        criteria.setType("writer");
+
+        System.out.println("===================================================");
+        List<Board> articles = boardMapper.getSearchArticles(criteria);
+        for (Board searchArticle : articles) {
+            System.out.println(searchArticle);
+        }
+        System.out.println("====================================================");
     }
 
 }

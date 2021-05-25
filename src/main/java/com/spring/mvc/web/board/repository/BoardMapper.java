@@ -16,8 +16,11 @@ public interface BoardMapper {
     //2. 페이징 쿼리 추가버전
     List<Board> getArticles(Criteria criteria);
 
+    //3. 검색 쿼리 추가버전
+    List<Board> getSearchArticles(Criteria criteria);
+
     //총 게시물 수 조회
-    int getTotalCount();
+    int getTotalCount(Criteria criteria);
 
     //게시글 등록
     void insertArticle(Board article);
