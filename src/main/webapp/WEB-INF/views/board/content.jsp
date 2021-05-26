@@ -6,6 +6,9 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+
+<%@ include file="../include/static-head.jsp" %>
+
 </head>
 <body>
 
@@ -21,6 +24,9 @@
 
 <a href="/board/list?page=${cri.page}&type=${cri.type}&keyword=${cri.keyword}&amount=${cri.amount}">글 목록보기</a>&nbsp;
 <a href="/board/modify?boardNo=${article.boardNo}&vf=false">글 수정하기</a>
+
+
+<%@ include file="../include/footer.jsp" %>
 
 </body>
 </html>

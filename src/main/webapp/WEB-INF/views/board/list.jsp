@@ -52,6 +52,10 @@
 	}
 </style>
 <link rel="stylesheet" href="/css/main.css">
+
+<%@ include file="../include/static-head.jsp" %>
+
+
 </head>
 <body>
 
@@ -144,6 +148,8 @@
 	<a href="/board/write">게시글 작성하기</a>
 </p>
 
+
+<%@ include file="../include/footer.jsp" %>
 
 <script>
 
