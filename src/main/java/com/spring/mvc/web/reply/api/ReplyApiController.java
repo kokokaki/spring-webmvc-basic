@@ -1,5 +1,6 @@
 package com.spring.mvc.web.reply.api;
 
+import com.spring.mvc.web.common.paging.Criteria;
 import com.spring.mvc.web.reply.domain.Reply;
 import com.spring.mvc.web.reply.service.ReplyService;
 import lombok.RequiredArgsConstructor;
@@ -9,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api/v1/reply")
@@ -19,14 +21,18 @@ public class ReplyApiController {
     private final ReplyService replyService;
 
     //댓글 목록 조회 요청 처리
-    @GetMapping("/{bno}")
-    public ResponseEntity<List<Reply>> getList(
-            @PathVariable("bno") int boardNo) {
+    @GetMapping("/{bno}/{page}")
+    public ResponseEntity<Map<String, Object>> getList(
+            @PathVariable("bno") int boardNo
+            , @PathVariable("page") int page
+    ) {
         log.info("/api/v1/reply/"+boardNo + " GET!!");
-        List<Reply> replies = replyService.getList(boardNo);
 
-        if (replies != null) {
-            return new ResponseEntity<>(replies, HttpStatus.OK);
+        Criteria criteria = new Criteria(page, 10);
+        Map<String, Object> replyMap = replyService.getList(boardNo, criteria);
+
+        if (replyMap != null) {
+            return new ResponseEntity<>(replyMap, HttpStatus.OK);
         } else {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
