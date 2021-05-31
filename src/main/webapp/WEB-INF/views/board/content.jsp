@@ -246,8 +246,7 @@
 			//페이지 버튼 클릭 이벤트
 			$('.pagination').on('click', 'li a',  e => {
 				e.preventDefault();
-				// getReplyList(e.target.getAttribute('href'));
-				getReplyList($(this).attr('href'));
+				getReplyList(e.target.getAttribute('href'));				
 			});
 		});
 	</script>
