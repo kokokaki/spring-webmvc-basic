@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.spring.mvc.web.member.repository.MemberMapper">
+
+    <!--  회원 가입 기능  -->
+    <insert id="register">
+        INSERT INTO member (account, password, name, email, auth)
+        VALUES (#{account}, #{password}, #{name}, #{email}, #{auth})
+    </insert>
+
+    <!--  아이디, 이메일 중복체크  -->
+    <select id="isDuplicate" resultType="int" parameterType="hashmap">
+        SELECT COUNT(*)
+        FROM member
+        <if test="type == 'account'">
+            WHERE account = #{keyword}
+        </if>
+        <if test="type == 'email'">
+            WHERE email = #{keyword}
+        </if>
+    </select>
+
+    <resultMap id="userMap" type="com.spring.mvc.web.member.domain.Member">
+        <result property="regDate" column="reg_date"/>
+    </resultMap>
+
+    <!--  회원 정보 조회  -->
+    <select id="getUser" resultMap="userMap">
+<!--    <select id="getUser" resultType="com.spring.mvc.web.member.domain.Member">-->
+        SELECT * FROM member
+        WHERE account = #{account}
+    </select>
+
+</mapper>

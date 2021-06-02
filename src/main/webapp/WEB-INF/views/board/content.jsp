@@ -13,6 +13,8 @@
 </head>
 
 <body>
+
+	<%@ include file="../include/header.jsp" %>
 	<div class="container">
 		<div class="row">
 			<div class="offset-md-1 col-md-10">

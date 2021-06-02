@@ -39,6 +39,10 @@ dependencies {
 
 	//마이바티스 라이브러리
 	compile "org.mybatis.spring.boot:mybatis-spring-boot-starter:2.1.0"
+
+	//스프링 시큐리티 라이브러리
+	implementation 'org.springframework.boot:spring-boot-starter-security'
+	implementation 'org.springframework.security:spring-security-test'
 }
 
 test {
