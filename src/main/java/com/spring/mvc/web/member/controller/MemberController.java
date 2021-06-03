@@ -38,4 +38,11 @@ public class MemberController {
         boolean flag = memberService.isDuplicate(type, keyword);
         return new ResponseEntity<>(flag, HttpStatus.OK);
     }
+
+    //로그인 화면 열기 요청처리
+    @GetMapping("/member/sign-in")
+    public String signIn() {
+        return "member/login";
+    }
+
 }
