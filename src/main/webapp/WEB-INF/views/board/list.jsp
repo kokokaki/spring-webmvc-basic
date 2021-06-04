@@ -95,7 +95,9 @@
 			</td>
 			<td>${article.viewCnt}</td>
 			<td>
-				<a href="/board/delete?boardNo=${article.boardNo}">[삭제]</a>
+				<c:if test="${article.writer == loginUser.account || loginUser.auth == 'ADMIN'}">
+					<a href="/board/delete?boardNo=${article.boardNo}">[삭제]</a>
+				</c:if>
 			</td>
 		</tr>
 	</c:forEach>	

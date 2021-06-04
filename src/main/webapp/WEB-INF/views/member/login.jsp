@@ -56,7 +56,7 @@
                                         <span>
                                         <i class="fa fa-sign-in" aria-hidden="true"></i> 
                                         자동 로그인
-                                        <input type="checkbox" id="auto-login" name="isAutoLogin">
+                                        <input type="checkbox" id="auto-login" name="autoLogin">
                                         </span>
                                     </label>
                                 </td>

@@ -12,6 +12,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpSession;
+
 @Controller
 @Log4j2
 public class BoardController {
@@ -25,7 +27,12 @@ public class BoardController {
 
     //글 작성 화면 요청
     @GetMapping("/board/write")
-    public String write() {
+    public String write(HttpSession session) {
+
+//        if (session.getAttribute("loginUser") == null) {
+//            return "redirect:/member/sign-in";
+//        }
+
         log.info("/board/write GET! ");
         return "board/write";
     }
@@ -33,6 +40,7 @@ public class BoardController {
     //글 작성 처리 요청
     @PostMapping("/board/write")
     public String write(Board article) {
+        log.info("/board/write POST : " + article);
         boardService.insertArticle(article);
         return "redirect:/board/list";
     }
@@ -69,6 +77,7 @@ public class BoardController {
     public String modify(int boardNo
                     , @RequestParam("vf") boolean viewCntFlag
                     , Model model) {
+
         model.addAttribute("article", boardService.getContent(boardNo, viewCntFlag));
         return "board/modify";
     }

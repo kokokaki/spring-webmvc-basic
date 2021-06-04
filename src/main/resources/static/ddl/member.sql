@@ -14,4 +14,8 @@ VALUES ('admin', '1234', '관리자', 'admin@gmail.com', 'ADMIN');
 
 COMMIT;
 
+-- 자동로그인 관련 컬럼 추가
+ALTER TABLE member ADD session_id VARCHAR2(200) DEFAULT 'none';
+ALTER TABLE member ADD limit_time DATE;
+
 SELECT * FROM member;

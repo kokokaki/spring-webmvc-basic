@@ -18,7 +18,4 @@ public class Member {
     private Auth auth; //권한
     private Date regDate; //가입일자
 
-    public void setPassword(String password) {
-        this.password = new BCryptPasswordEncoder().encode(password);
-    }
 }

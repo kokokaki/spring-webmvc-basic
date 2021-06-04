@@ -70,11 +70,11 @@ class MemberMapperTest {
     @DisplayName("비밀번호가 암호화된 상태로 회원가입에 성공해야 한다.")
     void regTest2() {
         Member member = Member.builder()
-                .account("banana")
-                .email("bbb2222@naver.com")
-                .name("김바나나")
-                .auth(Auth.COMMON)
-                .password(new BCryptPasswordEncoder().encode("bbb1234"))
+                .account("admin123")
+                .email("admin123@naver.com")
+                .name("박관리자")
+                .auth(Auth.ADMIN)
+                .password(new BCryptPasswordEncoder().encode("1234"))
                 .build();
 
         mapper.register(member);
