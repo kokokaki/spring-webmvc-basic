@@ -77,10 +77,11 @@ public class FileUtils {
         if (getMediaType(ext) != null) {
             //이미지인 경우
             String thumbnailPath = makeThumbnail(newUploadPath, newFileName);
-            return thumbnailPath.substring(uploadPath.length());
+            return thumbnailPath.substring(uploadPath.length())
+                    .replace("\\", "/");
         } else {
             //이미지가 아닌 경우
-            return responseFileName;
+            return responseFileName.replace("\\", "/");
         }
     }
 
@@ -108,7 +109,7 @@ public class FileUtils {
     }
 
     //파일명에서 확장자를 추출해주는 메서드
-    private static String getFileExtension(String fileName) {
+    public static String getFileExtension(String fileName) {
         //ex) fileName : dsf3fdsf33-dsfllkkj11-328743274_dog.jpg
         return fileName.substring(fileName.lastIndexOf(".") + 1);
     }
