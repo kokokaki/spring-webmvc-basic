@@ -13,6 +13,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
+import java.util.List;
 
 @Controller
 @Log4j2
@@ -41,6 +42,7 @@ public class BoardController {
     @PostMapping("/board/write")
     public String write(Board article) {
         log.info("/board/write POST : " + article);
+
         boardService.insertArticle(article);
         return "redirect:/board/list";
     }

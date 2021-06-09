@@ -7,6 +7,7 @@ import com.spring.mvc.web.common.paging.Criteria;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -47,8 +48,17 @@ public class BoardService {
     }
 
     //게시글 등록
+    @Transactional //트랜잭션 처리 자동화
     public void insertArticle(Board article) {
         boardRepository.insertArticle(article);
+
+        //만약에 첨부파일이 존재한다면 추가 쿼리를 동작해야 함
+        List<String> filePathList = article.getFilePathList();
+        if (filePathList != null) {
+            for (String path : filePathList) {
+                boardRepository.addFile(path);
+            }
+        }
     }
 
     //게시글 삭제

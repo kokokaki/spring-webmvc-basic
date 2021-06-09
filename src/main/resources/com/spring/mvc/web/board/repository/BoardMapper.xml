@@ -88,6 +88,14 @@
             (seq_board.nextval, #{title}, #{content}, #{writer})
     </insert>
 
+    <!--  첨부파일 추가 쿼리  -->
+    <insert id="addFile">
+        INSERT INTO file_upload
+            (file_path, board_no)
+        VALUES
+            (#{filePath}, seq_board.currval)
+    </insert>
+
     <delete id="deleteArticle">
         DELETE FROM board
         WHERE board_no = #{boardNo}

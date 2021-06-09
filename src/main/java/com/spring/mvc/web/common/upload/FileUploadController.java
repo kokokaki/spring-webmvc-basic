@@ -8,10 +8,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
@@ -93,9 +90,8 @@ public class FileUploadController {
         //파일을 찾아보고 없으면 404 상태코드와 함께 에러 리턴
         if (!file.exists()) return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 
-        try {
-            //2. 서버에 해당 파일이 저장되어 있다면 InputStream을 통해 파일을 로딩
-            InputStream in = new FileInputStream(file);
+        //2. 서버에 해당 파일이 저장되어 있다면 InputStream을 통해 파일을 로딩
+        try(InputStream in = new FileInputStream(file)) {
 
             //3. 응답 헤더에 파일의 컨텐츠 미디어 타입을 설정
             //  ex) image/gif, text/html, application/json
@@ -129,6 +125,49 @@ public class FileUploadController {
         } catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
+    }
+
+    //서버에 저장된 파일을 삭제하는 비동기 요청처리
+    //URI: /deleteFile?fileName=/2021/06/09/dfdsfdsfsfds_abc.txt
+    @DeleteMapping("/deleteFile")
+    @ResponseBody
+    public ResponseEntity<String> deleteFile(String fileName)
+            throws IOException {
+        log.info("/deleteFile DELETE! - " + fileName);
+        try {
+            //파일 삭제
+            //이 경우 이미지파일은 썸네일만 삭제되고 원본이 남게됨
+            File file = new File(UPLOAD_PATH + fileName);
+            boolean isDel = file.delete();
+            log.info("삭제 성공? " + isDel);
+
+            //따라서 이미지인 경우 원본까지 지우도록 해야한다.
+            if (isImage(fileName)) {
+                //원본을 지우는 코드
+                //fileName => 썸네일 이미지 경로: /2021/06/09/s_djfsdfhs_abc.jpg
+                //originalName => 원본 이미지 경로: /2021/06/09/djfsdfhs_abc.jpg
+                int lastSlashIdx = fileName.lastIndexOf("/");
+                String originalName = fileName.substring(0, lastSlashIdx + 1)
+                                + fileName.substring(lastSlashIdx + 3);
+
+                log.info("origin-name: " + originalName);
+
+                File origin = new File(UPLOAD_PATH + originalName);
+                origin.delete();
+            }
+            return new ResponseEntity<>("fileDeleteSuccess", HttpStatus.OK);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    //이미지 판별
+    private boolean isImage(String fileName) {
+        String ext = FileUtils.getFileExtension(fileName);
+        MediaType mediaType = FileUtils.getMediaType(ext);
+        return mediaType != null;
     }
 
 
