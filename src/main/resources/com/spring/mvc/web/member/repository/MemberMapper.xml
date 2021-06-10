@@ -29,7 +29,6 @@
 
     <!--  회원 정보 조회  -->
     <select id="getUser" resultMap="userMap">
-<!--    <select id="getUser" resultType="com.spring.mvc.web.member.domain.Member">-->
         SELECT * FROM member
         WHERE account = #{account}
     </select>

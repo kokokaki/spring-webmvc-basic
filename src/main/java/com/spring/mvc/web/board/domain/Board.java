@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 
+import java.util.Date;
 import java.util.List;
 
 @Setter @Getter
@@ -19,6 +20,10 @@ public class Board {
     private String title; //글제목
     private String content; //글내용
     private int viewCnt; //조회수
+    private Date regDate; //등록시간
+
+    //신규게시물 여부
+    private boolean newArticle;
 
     //첨부파일 경로 리스트
     private List<String> filePathList;

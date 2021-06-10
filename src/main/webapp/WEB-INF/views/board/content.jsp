@@ -9,7 +9,30 @@
 	<title>Insert title here</title>
 
 	<%@ include file="../include/static-head.jsp" %>
+	<style>
+		.attach-file-list {
+			display: flex;
+			width: 80%;
+			border: 1px dashed gray;
+			margin: 20px auto;
+			padding: 20px 10px;
+		}
 
+		.attach-file-list a {
+			display: flex;
+			flex-direction: column;
+		}
+
+		.attach-file-list a img {
+			width: 100px;
+			height: 100px;
+			display: block;
+		}
+
+		.attach-file-list .thumbnail-box {
+			display: flex;
+		}
+	</style>
 </head>
 
 <body>
@@ -36,6 +59,11 @@
 				</c:if>
 
 			</div>
+		</div>
+
+		<!-- 첨부파일 영역 -->
+		<div class="row">
+			<div class="attach-file-list"></div>
 		</div>
 
 		<!-- 댓글 영역 -->
@@ -129,6 +157,75 @@
 
 	<%@ include file="../include/footer.jsp" %>
 
+
+	<!-- 첨부파일 관련 스크립트 -->
+	<script>
+		$(function () {
+			const boardNo = '${article.boardNo}';
+			const $attachDiv = $('.attach-file-list');
+
+			//첨부파일 경로 목록 요청
+			fetch('/board/file/' + boardNo)
+				.then(res => res.json())
+				.then(filePathList => {
+					showFileData(filePathList)
+				});
+
+
+			//드롭한 파일의 형식에 따라 태그를 만들어주는 함수
+			function showFileData(pathList) {
+				//경로: \2021\06\08\dfjskfdjskf_dfjskfdj_dog.gif
+				for (let path of pathList) {
+					//이미지인지 아닌지에 따라 구분하여 처리
+					checkExtType(path);
+				}
+			}
+
+			//확장자 판별 후 태그 생성 처리 함수
+			function checkExtType(path) {
+				//원본 파일명 추출
+				let originFileName = path.substring(path.indexOf("_") + 1);
+
+				const $div = document.createElement('div');
+				$div.classList.add('thumbnail-box');
+
+
+				//이미지인지 확장자 체크
+				if (isImageFile(originFileName)) {
+					//이미지인 경우
+					originFileName = originFileName.substring(originFileName.indexOf("_") + 1);
+
+					const $img = document.createElement('img');
+					$img.setAttribute('src', '/loadFile?fileName=' + path);
+					$img.setAttribute('alt', originFileName);
+
+					$div.appendChild($img);
+
+
+				} else {
+					//이미지가 아닌 경우: 다운로드 링크 생성
+					const $link = document.createElement('a');
+					$link.setAttribute('href', '/loadFile?fileName=' + path);
+
+					$link.innerHTML = '<img src="/img/file_icon.jpg" alt="파일아이콘"> <span class="file-name">' +
+						originFileName + '</span>';
+
+					$div.appendChild($link);
+				}
+				$attachDiv.append($div);
+			}
+
+			//정규표현식으로 이미지파일 여부 확인하는 함수
+			function isImageFile(originFileName) {
+				const pattern = /jpg$|gif$|png$/i;
+				return originFileName.match(pattern);
+			}
+
+		}); //end jquery
+	</script>
+
+
+	<!-- 댓글 관련 스크립트 -->
 	<script>
 		// 댓글 처리 JS
 		$(function () {

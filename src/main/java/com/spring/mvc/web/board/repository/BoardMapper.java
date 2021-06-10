@@ -30,6 +30,8 @@ public interface BoardMapper {
 
     //게시글 내용보기
     Board getContent(int boardNo);
+    //게시글 첨부파일 경로 얻기
+    List<String> getFilePaths(int boardNo);
 
     //게시글 수정
     void modifyArticle(Board article);

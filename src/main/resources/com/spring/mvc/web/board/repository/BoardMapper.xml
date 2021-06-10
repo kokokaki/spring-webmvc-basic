@@ -8,6 +8,7 @@
     <resultMap id="boardMap" type="com.spring.mvc.web.board.domain.Board">
         <result property="boardNo" column="board_no"/>
         <result property="viewCnt" column="view_cnt"/>
+        <result property="regDate" column="reg_date"/>
     </resultMap>
 
     <!-- 1. 페이징 없는 버전   -->
@@ -34,10 +35,10 @@
     <select id="getSearchArticles" resultMap="boardMap">
         <![CDATA[
             SELECT
-                board_no, writer, title, content, view_cnt
+                board_no, writer, title, content, view_cnt, reg_date
             FROM
                 (SELECT /*+INDEX_DESC(board pk_board)*/
-                    rownum rn, board_no, writer, title, content, view_cnt
+                    rownum rn, board_no, writer, title, content, view_cnt, reg_date
                 FROM board
                 WHERE
             ]]>
@@ -103,6 +104,13 @@
 
     <select id="getContent" resultMap="boardMap">
         SELECT * FROM board
+        WHERE board_no = #{boardNo}
+    </select>
+
+    <!--  첨부파일 경로 불러오기  -->
+    <select id="getFilePaths" resultType="string">
+        SELECT file_path
+        FROM file_upload
         WHERE board_no = #{boardNo}
     </select>
 
