@@ -53,6 +53,7 @@
 			text-align: center;
 			font-weight: 700;
 			text-decoration: none;
+			
 		}
 	</style>
 	<link rel="stylesheet" href="/css/main.css">

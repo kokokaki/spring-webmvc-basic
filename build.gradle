@@ -48,6 +48,9 @@ dependencies {
 	implementation 'commons-io:commons-io:2.8.0'
 	//이미지 썸네일 라이브러리
 	implementation 'org.imgscalr:imgscalr-lib:4.2'
+
+	//gson (JSON 파싱 라이브러리)
+	implementation 'com.google.code.gson:gson:2.8.5'
 }
 
 test {
